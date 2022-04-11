@@ -249,6 +249,7 @@ new GitHubWorkflow(scope: Construct, id: string, props: GitHubWorkflowProps)
   * **postBuildSteps** (<code>Array<[JobStep](#cdk-pipelines-github-jobstep)></code>)  GitHub workflow steps to execute after build. __*Default*__: []
   * **preBuildSteps** (<code>Array<[JobStep](#cdk-pipelines-github-jobstep)></code>)  GitHub workflow steps to execute before build. __*Default*__: []
   * **preSynthed** (<code>boolean</code>)  Indicates if the repository already contains a synthesized `cdk.out` directory, in which case we will simply checkout the repo in jobs that require `cdk.out`. __*Default*__: false
+  * **publishAssetsRegion** (<code>string</code>)  Optional override for the region used in Publish Assets job. __*Default*__: "us-west-2"
   * **runner** (<code>[Runner](#cdk-pipelines-github-runner)</code>)  The type of runner to run the job on. __*Default*__: Runner.UBUNTU_LATEST
   * **workflowName** (<code>string</code>)  Name of the workflow. __*Default*__: "deploy"
   * **workflowPath** (<code>string</code>)  File path for the GitHub workflow. __*Default*__: ".github/workflows/deploy.yml"
@@ -295,17 +296,19 @@ In case of self-hosted, a list of labels can be supplied.
 
 Name | Type | Description 
 -----|------|-------------
-**runsOn** | <code>Array<string></code> | <span></span>
-*static* **MACOS_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | <span></span>
-*static* **UBUNTU_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | <span></span>
-*static* **WINDOWS_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | <span></span>
+**runsOn** | <code>string &#124; Array<string></code> | <span></span>
+*static* **MACOS_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | Runner instance that sets runsOn to `macos-latest`.
+*static* **UBUNTU_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | Runner instance that sets runsOn to `ubuntu-latest`.
+*static* **WINDOWS_LATEST** | <code>[Runner](#cdk-pipelines-github-runner)</code> | Runner instance that sets runsOn to `windows-latest`.
 
 ### Methods
 
 
 #### *static* selfHosted(labels) <a id="cdk-pipelines-github-runner-selfhosted"></a>
 
+Creates a runner instance that sets runsOn to `self-hosted`.
 
+Additional labels can be supplied. There is no need to supply `self-hosted` as a label explicitly.
 
 ```ts
 static selfHosted(labels: Array<string>): Runner
@@ -495,6 +498,7 @@ Name | Type | Description
 **postBuildSteps**? | <code>Array<[JobStep](#cdk-pipelines-github-jobstep)></code> | GitHub workflow steps to execute after build.<br/>__*Default*__: []
 **preBuildSteps**? | <code>Array<[JobStep](#cdk-pipelines-github-jobstep)></code> | GitHub workflow steps to execute before build.<br/>__*Default*__: []
 **preSynthed**? | <code>boolean</code> | Indicates if the repository already contains a synthesized `cdk.out` directory, in which case we will simply checkout the repo in jobs that require `cdk.out`.<br/>__*Default*__: false
+**publishAssetsRegion**? | <code>string</code> | Optional override for the region used in Publish Assets job.<br/>__*Default*__: "us-west-2"
 **runner**? | <code>[Runner](#cdk-pipelines-github-runner)</code> | The type of runner to run the job on.<br/>__*Default*__: Runner.UBUNTU_LATEST
 **workflowName**? | <code>string</code> | Name of the workflow.<br/>__*Default*__: "deploy"
 **workflowPath**? | <code>string</code> | File path for the GitHub workflow.<br/>__*Default*__: ".github/workflows/deploy.yml"
@@ -544,7 +548,7 @@ A GitHub Workflow job definition.
 Name | Type | Description 
 -----|------|-------------
 **permissions** | <code>[JobPermissions](#cdk-pipelines-github-jobpermissions)</code> | You can modify the default permissions granted to the GITHUB_TOKEN, adding or removing access as required, so that you only allow the minimum required access.
-**runsOn** | <code>Array<string></code> | The type of machine to run the job on.
+**runsOn** | <code>string &#124; Array<string></code> | The type of machine to run the job on.
 **steps** | <code>Array<[JobStep](#cdk-pipelines-github-jobstep)></code> | A job contains a sequence of tasks called steps.
 **concurrency**?🔹 | <code>any</code> | Concurrency ensures that only a single job or workflow using the same concurrency group will run at a time.<br/>__*Optional*__
 **container**? | <code>[ContainerOptions](#cdk-pipelines-github-containeroptions)</code> | A container to run any steps in a job that don't already specify a container.<br/>__*Optional*__
